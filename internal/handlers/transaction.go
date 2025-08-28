@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -19,6 +20,14 @@ type TransferRequest struct {
 type TransferResponse struct {
 	Success bool   `json:"success"`
 	Error   string `json:"error"`
+}
+
+type TransactionResponse struct {
+	ID              uint    `json:"id"`
+	SenderAddress   string  `json:"sender_address"`
+	ReceiverAddress string  `json:"receiver_address"`
+	Amount          float64 `json:"amount"`
+	CreatedAt       string  `json:"created_at"`
 }
 
 type BalanceResponse struct {
@@ -71,8 +80,19 @@ func (h *WalletHandler) GetLastTransactions(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	var response []TransactionResponse
+	for _, t := range transactions {
+		response = append(response, TransactionResponse{
+			ID:              t.ID,
+			SenderAddress:   t.SenderAddress,
+			ReceiverAddress: t.ReceiverAddress,
+			Amount:          t.Amount,
+			CreatedAt:       t.CreatedAt.Format(time.RFC3339),
+		})
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(transactions); err != nil {
+	if err := json.NewEncoder(w).Encode(response); err != nil {
 		log.Printf("error encoding transactions: %v", err)
 		http.Error(w, "failed to encode transactions", http.StatusInternalServerError)
 	}
