@@ -1,10 +1,10 @@
 # Infotecs 
 ## Clone the repository
-git clone https://github.com/polunde/Infotecs.git
+`git clone https://github.com/polunde/Infotecs.git`
 ## Launch containers
-docker-compose up --build
+`docker-compose up --build`
 ## The application will be available at
-http://localhost:8080
+`http://localhost:8080`
 
 ---
 
