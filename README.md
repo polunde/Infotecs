@@ -1,16 +1,16 @@
 # Infotecs 
-##Clone the repository
+## Clone the repository
 git clone https://github.com/polunde/Infotecs.git
-##Launch containers
+## Launch containers
 docker-compose up --build
-##The application will be available at
+## The application will be available at
 http://localhost:8080
 
 ---
 
-##Usage
+## Usage
 
-###API routes
+### API routes
 
 - `POST /api/send` — sending a transaction
 - `GET /api/transactions` — latest transactions
