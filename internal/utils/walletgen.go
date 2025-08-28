@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bufio"
 	"infotecs/internal/entity"
 	"log"
 	"os"
@@ -28,4 +29,31 @@ func GenerateWallets(n int, initialBalance float64) []entity.Wallet {
 		}
 	}
 	return wallets
+}
+
+func LoadWalletsFromFile(filename string, initialBalance float64) []entity.Wallet {
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatalf("failed to open file: %v", err)
+	}
+	defer file.Close()
+
+	var wallets []entity.Wallet
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		address := scanner.Text()
+		if address != "" {
+			wallets = append(wallets, entity.Wallet{
+				Address: address,
+				Balance: initialBalance,
+			})
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatalf("reading file error: %v", err)
+	}
+
+	return wallets
+
 }

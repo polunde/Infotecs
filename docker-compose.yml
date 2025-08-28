@@ -14,7 +14,8 @@ services:
   app:
     build: .
     depends_on:
-      - db
+      db:
+        condition: service_started
     environment:
       DB_ADDRESS: db
       DB_PORT: "5432"

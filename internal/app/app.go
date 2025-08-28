@@ -39,11 +39,11 @@ func Run() error {
 		return fmt.Errorf("failed count wallets: %w", err)
 	}
 	if count == 0 {
-		wallets := utils.GenerateWallets(10, 100)
+		wallets := utils.LoadWalletsFromFile("wallets_addresses.txt", 100)
 		if err := gormDB.Create(&wallets).Error; err != nil {
 			return fmt.Errorf("failed to create initial wallets: %w", err)
 		}
-		log.Printf("Created 10 initial wallets with UUID addresses")
+		log.Printf("Created %d initial wallets with UUID addresses", len(wallets))
 	}
 
 	walletRepo := repository.NewWalletRepository(gormDB)
