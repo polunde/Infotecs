@@ -13,5 +13,5 @@
 ### API routes
 
 - `POST /api/send` — sending a transaction
-- `GET /api/transactions` — latest transactions
+- `GET /api/transactions?cont=N` — latest transactions
 - `GET /api/wallet/{address}/balance` — wallet balance
