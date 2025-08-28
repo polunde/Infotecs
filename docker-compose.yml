@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: infotecsdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_ADDRESS: db
+      DB_PORT: "5432"
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      DB_NAME: infotecsdb
+      API_INTERFACE: "0.0.0.0"
+      API_PORT: "8080"
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
